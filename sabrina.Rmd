@@ -1,0 +1,42 @@
+Questionnaire IFA
+========================================================
+
+```{}
+file="f.csv"
+d<-read.csv(file,header=TRUE,skip=1,sep=";")
+
+d$diplÃ.me<-d$diplome
+d$cohÃ.rence<-d$coherence
+d$quand.j.estime.que.ca.le.merite<-d$estime
+
+names(d)
+str(d)
+save(d,file="data.Rda")
+```
+```{r start}
+load("data.Rda")
+
+attach(d)
+dept<-as.factor(dept)
+s<-summary(dept)
+barplot(sort(s),horiz=T,las=2,main="Origine des réponses",ylab="Départements")
+
+summary(activite)
+
+summary(Zone)
+
+summary(ADE)
+
+summary(Aux)
+
+```
+Lecteurs de glycémie
+```{r gly}
+summary(lecteur)
+round(prop.table(l)*100,2)
+table(activite,lecteur)
+
+table(activite,ecg)
+```
+
+
