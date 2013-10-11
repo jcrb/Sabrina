@@ -1,13 +1,27 @@
 Questionnaire IFA
 ========================================================
 
-```{}
+```{r start2}
 file="f.csv"
 d<-read.csv(file,header=TRUE,skip=1,sep=";")
 
 d$diplÃ.me<-d$diplome
 d$cohÃ.rence<-d$coherence
 d$quand.j.estime.que.ca.le.merite<-d$estime
+
+attach(d)
+
+a<-as.character(activite)
+a[a==" ASSU"]<-"A"
+a[a=="Ambulance de catégorie C"]<-"C"
+a[a=="VSL,  ASSU"]<-"VA"
+a[a=="VSL,  ASSU, Ambulance de catégorie C"]<-"VAC"
+a[a=="VSL, Ambulance de catégorie C"]<-"VC"
+a[a==" ASSU, Ambulance de catégorie C"]<-"AC"
+activite<-as.factor(a)
+summary(activite)
+plot(activite,main="Activité des entreprises de transport sanitaire",xlab="A = ASSU, C = Cat.C, V = VSL",ylab="Nombre")
+
 
 names(d)
 str(d)
@@ -23,18 +37,36 @@ barplot(sort(s),horiz=T,las=2,main="Origine des réponses",ylab="Départements")
 
 summary(activite)
 
+print("Lieux d'exercice")
 summary(Zone)
+print("Lieux d'exercice en %")
+round(prop.table(table(Zone))*100,2)
 
 summary(ADE)
+hist(ADE,breaks=30,main="Effectif ADE des entreprises",ylab="Nombre d'entreprises",col="purple")
 
 summary(Aux)
+hist(Aux,breaks=30,main="Effectif Auxiliaires des entreprises",ylab="Nombre d'entreprises",xlab="effectif",col="pink")
 
 ```
 Lecteurs de glycémie
 ```{r gly}
-summary(lecteur)
+l<-summary(lecteur)
 round(prop.table(l)*100,2)
+print("Avez-vous été formé au lecteur ?")
+summary(L2)
+print("en %")
+round(prop.table(summary(L2))*100,2)
+print("Département et formation au lecteur glycémie:")
+table(dept,L2)
+print("Le 67 est sur-représenté")
 table(activite,lecteur)
+print("L'utilisez-vous ?")
+summary(L3)
+print("Formation et utilisation:")
+table(L2,L3)
+print("La majorité des utilisateurs ont été formés à l'utilisation")
+
 
 table(activite,ecg)
 ```
